@@ -21,25 +21,20 @@ distances = [[0] for i in range(len(elevPath))]
 for i in range(len(locations)):
     if i > 0:
         locations[i].append(locations[i-1][0])
-        distances[i].append(vincenty(locations[i][0], locations[i-1][0]).kilometers)
+        distances[i].append(round(vincenty(locations[i][0], locations[i-1][0]).m))
     if i < len(elevPath)-1:
         locations[i].append(locations[i+1][0])
-        distances[i].append(vincenty(locations[i][0], locations[i+1][0]).kilometers)
+        distances[i].append(round(vincenty(locations[i][0], locations[i+1][0]).m))
 
 print(locations)
 print(distances)
 
 graph = makeGraph(locations, distances)
 
-
-for k,v in graph.items():
-    print(k)
-    print(v.latitude, v.longitude, v.elevation, v.neighbors)
-
-route, elevGain = optimalElevGain(graph[locations[0][0]], graph[locations[-1][0]], 0.5)
+route, elevGain = optimalElevGain(graph[locations[2][0]], graph[locations[-1][0]], 0.5, lowest=False)
 
 print(len(route), elevGain)
 
-route, elevGain = optimalElevGain(graph[locations[-1][0]], graph[locations[0][0]], 0.5)
+route, elevGain = optimalElevGain(graph[locations[-3][0]], graph[locations[0][0]], 0.5, lowest=False)
 
 print(len(route), elevGain)

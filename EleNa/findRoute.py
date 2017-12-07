@@ -1,7 +1,4 @@
 from queue import PriorityQueue
-from geopy.distance import vincenty
-from googlemaps.distance_matrix import distance_matrix
-from googlemaps.elevation import elevation
 from googlemaps import Client
 
 def optimalElevGain(start, goal, variance, lowest = False):
@@ -21,9 +18,8 @@ def optimalElevGain(start, goal, variance, lowest = False):
     # initialize google map client
     gmaps = Client(key='AIzaSyCtnZS7miejfbAh1FsKUBhxil1VXa0EicY')
     # shortest distance between start and goal, calculated by google map directions
-    shortestDistance = getShortestDistance(start, goal)
+    shortestDistance = getDistance(gmaps, start, goal)
     maxDistance = (1+variance)*shortestDistance
-    currDistance = 0
     # set of points that are evaluated
     closedSet = set()
     # maps points to distance from start to current node
@@ -42,7 +38,7 @@ def optimalElevGain(start, goal, variance, lowest = False):
     # For each point, the total cost of getting from the start point to the goal
     # by passing by that point. That value is partly known, partly heuristic.
     fScore = PriorityQueue()
-    fScore.put((costEstimate(gmaps, start, goal, lowest), distances[start], start))
+    fScore.put((costEstimate(start, goal, lowest), distances[start], start))
     while openSet:
         score, distance, currNode = fScore.get()
         if currNode == goal:
@@ -63,12 +59,12 @@ def optimalElevGain(start, goal, variance, lowest = False):
             if not neighbor in openSet:
                 openSet.add(neighbor)
             distances[neighbor] = min(distances.get(neighbor, float('inf')), distances[currNode] + dist)
-            currgScore = gScore.get(currNode, float('inf')) + costEstimate(gmaps, currNode, neighbor, lowest)
+            currgScore = gScore.get(currNode, float('inf')) + costEstimate(currNode, neighbor, lowest)
             if currgScore < gScore.get(neighbor, float('inf')):
                 # this path is a better path
                 cameFrom[neighbor] = currNode
                 gScore[neighbor] = currgScore
-                fScore.put((costEstimate(gmaps, neighbor, goal, lowest) + gScore[neighbor],distances[neighbor], neighbor))
+                fScore.put((costEstimate(neighbor, goal, lowest) + gScore[neighbor],distances[neighbor], neighbor))
     # no such path from start to goal
     return [], -1
 
@@ -89,16 +85,6 @@ def reconstructPath(cameFrom, goal):
     path.reverse()
     return path
 
-def getShortestDistance(start, end):
-    """
-    using google map API to calculate shortest distance between start and end point
-    :param gmaps:
-    :param start:
-    :param goal:
-    :return: distance value
-    """
-    return vincenty((start.latitude, start.longitude), (end.latitude, end.longitude)).kilometers
-
 def getDistance(gmaps, n1, n2):
     """
     get direct distance between 2 points on the map
@@ -112,10 +98,10 @@ def getDistance(gmaps, n1, n2):
     :rtype float
     """
 
-    directions_result = gmaps.directions(gmaps, (n1.latitude, n1.longitude), (n2.latitude, n2.longitude))
-    return float(directions_result['rows'][0]['elements'][0]['distance']['value'])
+    directions_result = gmaps.directions((n1.latitude, n1.longitude), (n2.latitude, n2.longitude))
+    return directions_result[0]['legs'][0]['distance']['value']
 
-def costEstimate(gmaps, n1, n2, lowest):
+def costEstimate(n1, n2, lowest):
     """
     heuristic cost estimate of cost between n1 and n2
     will be the elevation difference
