@@ -31,7 +31,7 @@ print(distances)
 
 graph = makeGraph(locations, distances)
 
-route, elevGain = optimalElevGain(graph[locations[2][0]], graph[locations[-1][0]], 0.5, lowest=False)
+route, elevGain = optimalElevGain(graph[locations[2][0]], graph[locations[-1][0]], 0.5, lowest=True)
 
 print(len(route), elevGain)
 

@@ -42,8 +42,11 @@ def optimalElevGain(start, goal, variance, lowest = False):
     while openSet:
         score, distance, currNode = fScore.get()
         if currNode == goal:
-            return reconstructPath(cameFrom, currNode), score
+            if lowest:
+                return reconstructPath(cameFrom, currNode), -round(score)
+            return reconstructPath(cameFrom, currNode), -round(score)
         openSet.remove(currNode)
+        closedSet.add(currNode)
         for neighbor, dist in currNode.neighbors.items():
             if neighbor in closedSet:
                 if dist + distances[currNode] < distances[neighbor]:
