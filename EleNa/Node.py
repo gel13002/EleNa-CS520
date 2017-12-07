@@ -12,7 +12,18 @@ class Node:
         :param lat: latitude of this node
         :param lng: longitude
         """
-        self.neighbors = dict()
+        self.neighbors = dict()  # dict of node -> distance
         self.latitude = lat
         self.longitude = lng
         self.elevation = elevation(Client(key='AIzaSyCtnZS7miejfbAh1FsKUBhxil1VXa0EicY'), (lat, lng))[0]['elevation']
+
+    def addNeighbor(self, neighbor, distance):
+        """
+        append a new neighbor to current node
+        :param neighbor:
+        :type neighbor: Node
+        :param distance: distance between neighbor and current Node
+        :type distance: float
+        :return: empty
+        """
+        self.neighbors[neighbor] = distance

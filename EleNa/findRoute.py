@@ -21,7 +21,7 @@ def optimalElevGain(start, goal, variance, lowest = False):
     # initialize google map client
     gmaps = Client(key='AIzaSyCtnZS7miejfbAh1FsKUBhxil1VXa0EicY')
     # shortest distance between start and goal, calculated by google map directions
-    shortestDistance = getShortestDistance(gmaps, start, goal)
+    shortestDistance = getShortestDistance(start, goal)
     maxDistance = (1+variance)*shortestDistance
     currDistance = 0
     # set of points that are evaluated
@@ -89,7 +89,7 @@ def reconstructPath(cameFrom, goal):
     path.reverse()
     return path
 
-def getShortestDistance(gmaps, start, end):
+def getShortestDistance(start, end):
     """
     using google map API to calculate shortest distance between start and end point
     :param gmaps:
