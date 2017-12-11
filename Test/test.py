@@ -38,3 +38,11 @@ print(len(route), elevGain)
 route, elevGain = optimalElevGain(graph[locations[-3][0]], graph[locations[0][0]], 0.5, lowest=False)
 
 print(len(route), elevGain)
+
+route, elevGain = optimalElevGain(graph[locations[2][0]], graph[locations[-1][0]], 0.5, lowest=False)
+
+print(len(route), elevGain)
+
+route, elevGain = optimalElevGain(graph[locations[-3][0]], graph[locations[0][0]], 0.5, lowest=True)
+
+print(len(route), elevGain)
