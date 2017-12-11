@@ -3,19 +3,53 @@ try:
 except ImportError:
 	from xml.etree import ElementTree as ET
 
+from geopy.distance import vincenty
+import math
+
 roads = []
 intersections = []
-children = []
-# osm =
+
+osm = open("massachusetts.osm", "r")
 
 def getRegion(start, end):
-	midpoint = ((start[0] + end[0]) / 2, (start[1] + end[1]) / 2)
-
-
-def getIntersections(osm):
 	tree = ET.parse(osm)
 	root = tree.getroot()
 	children = root.getchildren()
+
+	distance = vincenty(start, end).miles
+	midpoint = ((start[0] + end[0]) / 2, (start[1] + end[1]) / 2)
+
+	degreesLon = (1.5 * distance / 2) / ((69.172) * math.cos(midpoint[0] * math.pi / 180)) 
+	maxLon = midpoint[1] + degreesLon
+	minLon = midpoint[1] - degreesLon
+	maxLat = midpoint[0] + ((1.5 * distance / 2) / 69.172)
+	minLat = midpoint[0] - ((1.5 * distance / 2) / 69.172)
+
+	childrenInRegion = []
+	nodesInRegion = []
+
+	for child in children:
+		if child.tag == 'node':
+			lat = int(child.attrib['lat'])
+			lon = int(child.attrib['lon'])
+			if lat < maxLat and lat > minLat and lon < maxLon and lon > minLon:
+				childrenInRegion.append(child)
+				nodesInRegion.append(child.attrib['id'])
+	for child in children:
+		if child.tag == 'way':
+			roadInRegion = False
+			for item in child:
+				if item.tag == 'nd' and item.attrib['ref'] in nodesInRegion:
+					roadInRegion = True
+					break
+			if roadInRegion:
+				childrenInRegion.append(child)
+
+	return childrenInRegion
+
+
+def getIntersections(region):
+	children = region
 	counter = {}
 
 	for child in children:
@@ -41,15 +75,15 @@ def getIntersections(osm):
 	for i in list(filter(lambda x: counter[x] > 1,  counter)):
 		intersections.append(i)
 
-	roadsWithNodes = sortRoadNodes()
-	print(roadsWithNodes[18][1])
+	roadsWithNodes = filterRoadNodes()
+	#print(roadsWithNodes[18][1])
 
-	for g in roadsWithNodes[18][1]:
-		for child in children:
-			if child.tag == 'node':
-				if child.attrib['id'] == g:
-					#coordinate = (child.attrib['lat'], child.attrib['lon'])
-					print (child.attrib['lat'] + ',' + child.attrib['lon'])
+	#for g in roadsWithNodes[18][1]:
+	#	for child in children:
+	#		if child.tag == 'node':
+	#			if child.attrib['id'] == g:
+	#				#coordinate = (child.attrib['lat'], child.attrib['lon'])
+	#				print (child.attrib['lat'] + ',' + child.attrib['lon'])
 	intersAndCoords = []
 
 	for child in children:
@@ -62,7 +96,7 @@ def getIntersections(osm):
 				intersAndCoords.append((child.attrib['id'], coords))
 	return intersAndCoords
 
-def sortRoadNodes():
+def filterRoadNodes():
 	roadsWithNodes = []
 	for road in roads:
 		nodes = []
