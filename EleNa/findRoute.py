@@ -51,7 +51,11 @@ def optimalElevGain(start, goal, variance, lowest = False):
             if neighbor in closedSet:
                 if dist + distances[currNode] < distances[neighbor]:
                     # find a closer route, give the node another chance by putting it back to openset
+                    currgScore = gScore.get(currNode, float('inf')) + costEstimate(currNode, neighbor, lowest)
+                    gScore[neighbor] = currgScore
+                    fScore.put((costEstimate(neighbor, goal, lowest) + gScore[neighbor], distances[neighbor], neighbor))
                     openSet.add(neighbor)
+                    closedSet.remove(neighbor)
                     distances[neighbor] = dist + distances[currNode]
                     cameFrom[neighbor] = currNode
                 continue

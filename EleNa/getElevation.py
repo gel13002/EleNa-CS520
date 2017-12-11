@@ -9,7 +9,7 @@ def getLocation(client, address):
     :param address:
     :type string
     :return (lat, lng)
-    :rtype (int, int)
+    :rtype (float, float)
     """
     geocode_result = client.geocode(address)
     location = geocode_result[0]['geometry']['location']

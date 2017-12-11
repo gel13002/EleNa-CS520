@@ -4,7 +4,7 @@
     <list default="true" id="cee87cd6-a56f-4615-9689-12d080d4483b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/EleNa/findRoute.py" afterPath="$PROJECT_DIR$/EleNa/findRoute.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Test/test.py" afterPath="$PROJECT_DIR$/Test/test.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/EleNa/getElevation.py" afterPath="$PROJECT_DIR$/EleNa/getElevation.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,8 +18,8 @@
       <file leaf-file-name="findRoute.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/EleNa/findRoute.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="46" column="69" lean-forward="false" selection-start-line="46" selection-start-column="69" selection-end-line="46" selection-end-column="69" />
+            <state relative-caret-position="180">
+              <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -27,11 +27,21 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="getElevation.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/EleNa/getElevation.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="149">
+              <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Test/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="268">
-              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="75">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -40,8 +50,8 @@
       <file leaf-file-name="Node.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EleNa/Node.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="22" />
+            <state relative-caret-position="210">
+              <caret line="14" column="47" lean-forward="false" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="47" />
               <folding>
                 <element signature="e#0#42#0" expanded="true" />
               </folding>
@@ -52,8 +62,8 @@
       <file leaf-file-name="makeNodes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/EleNa/makeNodes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="34" column="30" lean-forward="false" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
+            <state relative-caret-position="255">
+              <caret line="17" column="27" lean-forward="false" selection-start-line="16" selection-start-column="36" selection-end-line="17" selection-end-column="27" />
               <folding />
             </state>
           </provider>
@@ -83,6 +93,7 @@
       <find>vincenty</find>
       <find>lowest</find>
       <find>closedSet</find>
+      <find>closedset.</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -91,16 +102,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/EleNa/Node.py" />
         <option value="$PROJECT_DIR$/EleNa/makeNodes.py" />
         <option value="$PROJECT_DIR$/Test/test.py" />
+        <option value="$PROJECT_DIR$/EleNa/getElevation.py" />
+        <option value="$PROJECT_DIR$/EleNa/Node.py" />
         <option value="$PROJECT_DIR$/EleNa/findRoute.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="26" />
-    <option name="y" value="25" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="24" />
     <option name="width" value="1440" />
     <option name="height" value="815" />
   </component>
@@ -125,6 +136,25 @@
             <path>
               <item name="EleNa-CS520" type="b2602c69:ProjectViewProjectNode" />
               <item name="EleNa-CS520" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EleNa-CS520" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EleNa-CS520" type="462c0819:PsiDirectoryNode" />
+              <item name="EleNa" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EleNa-CS520" type="b2602c69:ProjectViewProjectNode" />
+              <item name="EleNa-CS520" type="462c0819:PsiDirectoryNode" />
+              <item name="Test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="EleNa-CS520" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+            </path>
+            <path>
+              <item name="EleNa-CS520" type="b2602c69:ProjectViewProjectNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
+              <item name="&lt; Python 3.6.1 (/Library/Frameworks/Python.framework/Versions/3.6/bin/python3.6) &gt;" type="70bed36:NamedLibraryElementNode" />
             </path>
           </expand>
           <select />
@@ -231,14 +261,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1440" height="815" extended-state="6" />
+    <frame x="0" y="24" width="1440" height="815" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -288,16 +318,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EleNa/getElevation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#17#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/site-packages/geopy/point.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -338,36 +358,44 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Test/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EleNa/getElevation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="11" column="25" lean-forward="true" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/EleNa/makeNodes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="27" lean-forward="false" selection-start-line="16" selection-start-column="36" selection-end-line="17" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/EleNa/Node.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="22" />
+        <state relative-caret-position="210">
+          <caret line="14" column="47" lean-forward="false" selection-start-line="14" selection-start-column="43" selection-end-line="14" selection-end-column="47" />
           <folding>
             <element signature="e#0#42#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/EleNa/makeNodes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="34" column="30" lean-forward="false" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Test/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="268">
-          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/EleNa/findRoute.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="46" column="69" lean-forward="false" selection-start-line="46" selection-start-column="69" selection-end-line="46" selection-end-column="69" />
+        <state relative-caret-position="180">
+          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="25" selection-end-line="12" selection-end-column="25" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
           </folding>
