@@ -1,20 +1,15 @@
 import sys
 sys.path.insert(0 ,'../')
 
-import EleNa
 from EleNa.findRoute import optimalElevGain
-from EleNa.Node import Node
 from EleNa.makeNodes import makeGraph
 from googlemaps import Client
 from geopy.distance import vincenty
-
-import googlemaps
 from googlemaps.elevation import elevation_along_path
 
-gmaps = googlemaps.Client(key='AIzaSyCtnZS7miejfbAh1FsKUBhxil1VXa0EicY')
+gmaps = Client(key='AIzaSyCtnZS7miejfbAh1FsKUBhxil1VXa0EicY')
 elevPath = elevation_along_path(gmaps, path=[(36.578581,-118.291994),(36.23998,-116.83171)], samples=10)
 
-gmaps = Client(key='AIzaSyCtnZS7miejfbAh1FsKUBhxil1VXa0EicY')
 neighbors = []
 locations = [[(item['location']['lat'], item['location']['lng'])] for item in elevPath]
 distances = [[0] for i in range(len(elevPath))]
