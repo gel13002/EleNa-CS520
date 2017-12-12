@@ -10,14 +10,14 @@ import copy
 roads = []
 intersections = []
 childrenInRegion = []
-
+C
 def getFullNeighborsInfo(start, end):
 	region = getRegion(start, end)
 	interList = getIntersections(region)
 	return getNeighborsWithDist(interList)
 
 def getRegion(start, end):
-	osm = open("massachusetts.osm", "r")
+	osm = open("../Amherst.osm", "r")
 	tree = ET.parse(osm)
 	root = tree.getroot()
 	children = root.getchildren()

@@ -1,6 +1,8 @@
 from googlemaps.elevation import elevation
 from googlemaps import Client
 
+gmaps = Client(key='AIzaSyCQlmo9XLIT62MF2XDdbcjnsPO8CqmzPBk')
+
 class Node:
     """
         Node representing lat, lng object in graph
@@ -15,7 +17,7 @@ class Node:
         self.neighbors = dict()  # dict of node -> distance
         self.latitude = lat
         self.longitude = lng
-        self.elevation = elevation(Client(key='AIzaSyCtnZS7miejfbAh1FsKUBhxil1VXa0EicY'), (lat, lng))[0]['elevation']
+        self.elevation = elevation(gmaps, (lat, lng))[0]['elevation']
 
     def addNeighbor(self, neighbor, distance):
         """

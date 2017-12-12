@@ -9,13 +9,15 @@ def makeGraph(locationsAndDistances):
     make a connected graph out of 2d list of location and distances
     :param locationsAndDistances: list of tuples (location, distance)
     :type locationsAndDistances list
-    location: for row in location, row[0] is (lat,lng) of the node; row[1:] will be its neighbors
+    location: for row in location, row[0] is (lat,lng) of the node; row[1:] will be its neighbors, type (str, str)
     distance: for row in distance, row[0] is always 0 and row[x] is the distance between node and neighbor x
     :return: list of nodes
     :rtype: list[Node]
     """
     graph = dict() # maps (lat, lng) to Node
-    for location,distance in locationsAndDistances:
+    locations = locationsAndDistances[1]
+    distances = locationsAndDistances[0]
+    for location, distance in zip(locations, distances):
         currLocation = location[0]
         neighbors = location[1:]
         makeNode(currLocation, neighbors, distance[1:], graph)
@@ -29,14 +31,36 @@ def makeNode(location, neighbors, distances, graph):
     :param distances: list of distances associated with neighbors
     :return: list[Node]
     """
-    latitude, longitude = location
-    if not location in graph:
-        graph[location] = Node(latitude, longitude)
-    currNode = graph[location]
+    latitude, longitude = toFloat(location)
+    latitude = float(latitude)
+    longitude = float(longitude)
+    if not (latitude, longitude) in graph:
+        graph[(latitude, longitude)] = Node(latitude, longitude)
+    currNode = graph[(latitude, longitude)]
     for neibLocation,distance in zip(neighbors, distances):
-        lat,lng = neibLocation
+        lat,lng = toFloat(neibLocation)
         if not (lat,lng) in graph:
             neib = Node(lat,lng)
             graph[(lat,lng)] = neib
         neib = graph[(lat,lng)]
         currNode.addNeighbor(neib, distance)
+
+def toFloat(location):
+    return float(location[0]), float(location[1])
+
+def closestNode(start, graph):
+    """
+    return cloest node to start on the graph
+    :param start: a (lat,lng) tuple
+    :param graph: a dict maps (lat,lng) to node
+    :return: Node
+    :rtype: Node
+    """
+    slat, slng = start
+    minDist = float('inf')
+    for lat,lng in graph.keys():
+        dist = (slat-lat)**2 + (slng-lng)**2
+        if dist < minDist:
+            closest = (lat,lng)
+            minDist = dist
+    return closest

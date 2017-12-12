@@ -45,6 +45,8 @@ def optimalElevGain(start, goal, variance, lowest = False):
             if lowest:
                 return reconstructPath(cameFrom, currNode), -round(score)
             return reconstructPath(cameFrom, currNode), round(score)
+        if not currNode in openSet:
+            continue
         openSet.remove(currNode)
         closedSet.add(currNode)
         for neighbor, dist in currNode.neighbors.items():
