@@ -7,7 +7,7 @@ class Node:
     """
         Node representing lat, lng object in graph
     """
-    def __init__(self, lat, lng):
+    def __init__(self, lat, lng, elev=None):
         # maps neighbor node to distance
         """
         a node representing a location on the map using latitude and longitude
@@ -17,7 +17,10 @@ class Node:
         self.neighbors = dict()  # dict of node -> distance
         self.latitude = lat
         self.longitude = lng
-        self.elevation = elevation(gmaps, (lat, lng))[0]['elevation']
+        if not elev:
+            self.elevation = elevation(gmaps, (lat, lng))[0]['elevation']
+        else:
+            self.elevation = elev
 
     def addNeighbor(self, neighbor, distance):
         """

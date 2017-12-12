@@ -4,7 +4,7 @@ create the connected graph using neighbor information
 
 from EleNa.Node import Node
 
-def makeGraph(locationsAndDistances):
+def makeGraph(locationsAndDistances, elevations=None):
     """
     make a connected graph out of 2d list of location and distances
     :param locationsAndDistances: list of tuples (location, distance)
@@ -20,7 +20,10 @@ def makeGraph(locationsAndDistances):
     for location, distance in zip(locations, distances):
         currLocation = location[0]
         neighbors = location[1:]
-        makeNode(currLocation, neighbors, distance[1:], graph)
+        if not elevations:
+            makeNode(currLocation, neighbors, distance[1:], graph)
+        else:
+            makeNodeWithElev(currLocation, neighbors, distance[1:], elevations, graph)
     return graph
 
 def makeNode(location, neighbors, distances, graph):
@@ -64,3 +67,25 @@ def closestNode(start, graph):
             closest = (lat,lng)
             minDist = dist
     return closest
+
+def makeNodeWithElev(location, neighbors, distances, elevations, graph):
+    latitude, longitude = toFloat(location)
+    latitude = float(latitude)
+    longitude = float(longitude)
+    if not (latitude, longitude) in graph:
+        if (latitude, longitude) in elevations:
+            graph[(latitude, longitude)] = Node(latitude, longitude,
+                                                elevations[(latitude, longitude)])
+        else:
+            graph[(latitude, longitude)] = Node(latitude, longitude, elevations[closestNode((latitude, longitude), elevations)])
+    currNode = graph[(latitude, longitude)]
+    for neibLocation,distance in zip(neighbors, distances):
+        lat,lng = toFloat(neibLocation)
+        if not (lat,lng) in graph:
+            if (lat,lng) in elevations:
+                neib = Node(lat, lng, elevations[(lat, lng)])
+            else:
+                neib = Node(lat,lng, elevations[closestNode((lat, lng), elevations)])
+            graph[(lat,lng)] = neib
+        neib = graph[(lat,lng)]
+        currNode.addNeighbor(neib, distance)

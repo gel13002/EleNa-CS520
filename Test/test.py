@@ -15,11 +15,28 @@ gmaps = Client(key='AIzaSyB6vHx97QpX_47VszFXIucfE-H_8xrbLWc')
 start = getLocation(gmaps, "University of Massachusetts")
 end = getLocation(gmaps, "Amherst")
 locationsAndDistances = getFullNeighborsInfo(start, end)
-graph = makeGraph(locationsAndDistances)
+# make a graph out of google map API call
+# graph = makeGraph(locationsAndDistances)
+# startPos = closestNode(start, graph)
+# endPos = closestNode(end, graph)
+# with open('elev.txt', 'w') as f:
+#     for node in graph.values():
+#         f.write("%f %f %d\n"%(node.latitude, node.longitude, node.elevation))
+elevations = {}
+with open('elev.txt') as f:
+    for line in f:
+        lat,lng,elev = line.split()
+        lat = float(lat)
+        lng = float(lng)
+        elev = int(elev)
+        elevations[(lat,lng)] = elev
+graph = makeGraph(locationsAndDistances, elevations)
+# make the graph out of local data
 startPos = closestNode(start, graph)
 endPos = closestNode(end, graph)
-# route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.1)
-# print(len(route), elevGain)
+print("Testing...")
+route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.1)
+print(len(route), elevGain)
 route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.1, True)
 print(len(route), elevGain)
 

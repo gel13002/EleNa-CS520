@@ -39,16 +39,18 @@ def optimalElevGain(start, goal, variance, highest = False):
     # by passing by that point. That value is partly known, partly heuristic.
     fScore = PriorityQueue()
     fScore.put((costEstimate(start, goal, highest), distances[start], start))
+    path = []
     while openSet:
         score, distance, currNode = fScore.get()
         if currNode == goal:
             if highest:
-                return reconstructPath(cameFrom, currNode), -round(score)
-            return reconstructPath(cameFrom, currNode), round(score)
+                return reconstructPath(cameFrom, start, currNode), -round(score)
+            return reconstructPath(cameFrom, start, currNode), round(score)
         if not currNode in openSet:
             continue
         openSet.remove(currNode)
         closedSet.add(currNode)
+
         for neighbor, dist in currNode.neighbors.items():
             if neighbor in closedSet:
                 if dist + distances[currNode] < distances[neighbor]:
@@ -78,7 +80,7 @@ def optimalElevGain(start, goal, variance, highest = False):
     return [], -1
 
 
-def reconstructPath(cameFrom, goal):
+def reconstructPath(cameFrom, start, goal):
     """
     get
     :param cameFrom: a dict maps Node to Node, cameFrom[i] = j means shortest path from start to i reaches i directly from j
@@ -88,7 +90,14 @@ def reconstructPath(cameFrom, goal):
     """
     path = [goal]
     current = goal
+    visited = set()
     while current in cameFrom:
+        if current in visited:
+            # circle detected
+            # simply return most direct path from start to destination with elev gain
+            path.reverse()
+            return findPath(start, current) + path
+        visited.add(current)
         current = cameFrom[current]
         path.append(current)
     path.reverse()
@@ -127,3 +136,25 @@ def costEstimate(n1, n2, highest):
     if highest:
         return -max(n2.elevation - n1.elevation, 0)
     return max(n2.elevation - n1.elevation, 0)
+
+def findPath(start, goal):
+    """
+    when circle is detected, find most direct path between start and the node where circle starts
+    :param start: Node
+    :param goal: Node
+    :return:
+    """
+    stack = [start]
+    visited = dict()
+    cameFrom = {start:start}
+    while stack:
+        node = stack.pop(0)
+        if node == goal:
+            del cameFrom[start]
+            return reconstructPath(cameFrom, start, goal)
+        visited[node] = costEstimate(cameFrom[node], node, False)
+        for neib in node.neighbors:
+            if not neib in visited:
+                cameFrom[neib] = node
+                stack.append(neib)
+    return []
