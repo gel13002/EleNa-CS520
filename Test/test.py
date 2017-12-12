@@ -29,7 +29,7 @@ for i in range(len(locations)):
 print(locations)
 print(distances)
 
-graph = makeGraph(locations, distances)
+graph = makeGraph([(location, distance) for location, distance in zip(locations, distances)])
 
 route, elevGain = optimalElevGain(graph[locations[2][0]], graph[locations[-1][0]], 0.5, lowest=True)
 
