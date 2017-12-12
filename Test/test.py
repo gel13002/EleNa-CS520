@@ -10,7 +10,7 @@ from googlemaps.elevation import elevation_along_path
 from geopy.distance import vincenty
 import pickle
 
-gmaps = Client(key='AIzaSyCQlmo9XLIT62MF2XDdbcjnsPO8CqmzPBk')
+gmaps = Client(key='AIzaSyB6vHx97QpX_47VszFXIucfE-H_8xrbLWc')
 
 start = getLocation(gmaps, "University of Massachusetts")
 end = getLocation(gmaps, "Amherst")
@@ -18,9 +18,9 @@ locationsAndDistances = getFullNeighborsInfo(start, end)
 graph = makeGraph(locationsAndDistances)
 startPos = closestNode(start, graph)
 endPos = closestNode(end, graph)
-route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.5)
-print(len(route), elevGain)
-route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.5, True)
+# route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.1)
+# print(len(route), elevGain)
+route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.1, True)
 print(len(route), elevGain)
 
 # elevPath = elevation_along_path(gmaps, path=[(36.578581,-118.291994),(36.23998,-116.83171)], samples=10)

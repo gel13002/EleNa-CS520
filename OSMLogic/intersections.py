@@ -10,7 +10,7 @@ import copy
 roads = []
 intersections = []
 childrenInRegion = []
-C
+
 def getFullNeighborsInfo(start, end):
 	region = getRegion(start, end)
 	interList = getIntersections(region)
@@ -69,8 +69,8 @@ def getNodesOfRoads(region = childrenInRegion):
 		if child.tag == 'node' and child.attrib['id'] in nodeIDs and child not in allRoadNodes:
 			allRoadNodes.append(child)
 
-	for item in allRoadNodes:
-		print(str(item.attrib['lat']) + "," + str(item.attrib['lon']))
+	# for item in allRoadNodes:
+	# 	print(str(item.attrib['lat']) + "," + str(item.attrib['lon']))
 
 	return allRoadNodes
 
