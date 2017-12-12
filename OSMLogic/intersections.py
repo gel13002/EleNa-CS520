@@ -17,7 +17,7 @@ def getFullNeighborsInfo(start, end):
 	return getNeighborsWithDist(interList)
 
 def getRegion(start, end):
-	osm = open("map.osm", "r")
+	osm = open("massachusetts.osm", "r")
 	tree = ET.parse(osm)
 	root = tree.getroot()
 	children = root.getchildren()
