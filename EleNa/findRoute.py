@@ -1,5 +1,41 @@
+import sys
+sys.path.insert(0 ,'../')
+
 from queue import PriorityQueue
 from googlemaps import Client
+from googlemaps.elevation import elevation
+from EleNa.getElevation import getLocation
+from EleNa.makeNodes import makeGraph, closestNode
+from OSMLogic.intersections import getFullNeighborsInfo, plotMap
+
+# initialize google map client
+gmaps = Client(key='AIzaSyB6vHx97QpX_47VszFXIucfE-H_8xrbLWc')
+
+def findRoute(startAddr, endAddr, variance, highest):
+    """
+    Interface for UI and backend
+    :param startAddr: starting address
+    :type startAddr: str
+    :param endAddr: destination address
+    :type endAddr: str
+    :param variance: how many variance is tolerable
+    :type variance: float
+    :param highest: user option, highest elevation gain or lowest elevation gain
+    :type highest: bool
+    :return:
+    """
+    start = getLocation(gmaps, startAddr)
+    end = getLocation(gmaps, endAddr)
+    locationsAndDistances = getFullNeighborsInfo(startAddr, endAddr, variance)
+    graph = makeGraph(locationsAndDistances)
+    # cloest point to start/end in this region
+    startPos = closestNode(start, graph)
+    endPos = closestNode(end, graph)
+    route, elevGain = optimalElevGain(graph[startPos], graph[endPos], variance, highest)
+    latitudes = [node.latitude for node in route]
+    longitudes = [node.longitude for node in route]
+    plotMap((latitudes, longitudes))
+    return elevGain
 
 def optimalElevGain(start, goal, variance, highest = False):
     """
@@ -9,17 +45,15 @@ def optimalElevGain(start, goal, variance, highest = False):
     :type start: Node
     :param goal: destination
     :type: goal: Node
-    :param variance: how many variance is tolerable
+    :param variance: how many variance is tolerable, should be > 1
     :type variance: float
     :param highest: user option, highest elevation gain or lowest
     :type: highest: Boolean
-    :return:
+    :return: latitudes, longitudes, elevation gain
     """
-    # initialize google map client
-    gmaps = Client(key='AIzaSyB6vHx97QpX_47VszFXIucfE-H_8xrbLWc')
     # shortest distance between start and goal, calculated by google map directions
     shortestDistance = getDistance(gmaps, start, goal)
-    maxDistance = (1+variance)*shortestDistance
+    maxDistance = variance*shortestDistance
     # set of points that are evaluated
     closedSet = set()
     # maps points to distance from start to current node
@@ -43,9 +77,12 @@ def optimalElevGain(start, goal, variance, highest = False):
     while openSet:
         score, distance, currNode = fScore.get()
         if currNode == goal:
+            route = reconstructPath(cameFrom, start, currNode)
+            latitudes = [node.latitude for node in route]
+            longitudes = [node.longitude for node in route]
             if highest:
-                return reconstructPath(cameFrom, start, currNode), -round(score)
-            return reconstructPath(cameFrom, start, currNode), round(score)
+                return latitudes, longitudes, -round(score)
+            return latitudes, longitudes, round(score)
         if not currNode in openSet:
             continue
         openSet.remove(currNode)
@@ -76,8 +113,9 @@ def optimalElevGain(start, goal, variance, highest = False):
                 cameFrom[neighbor] = currNode
                 gScore[neighbor] = currgScore
                 fScore.put((costEstimate(neighbor, goal, highest) + gScore[neighbor],distances[neighbor], neighbor))
-    # no such path from start to goal
-    return [], -1
+    # cannot find path
+    # return whatever constructed by google map route
+    return getElevationFromPath(gmaps, start, goal)
 
 
 def reconstructPath(cameFrom, start, goal):
@@ -96,7 +134,7 @@ def reconstructPath(cameFrom, start, goal):
             # circle detected
             # simply return most direct path from start to destination with elev gain
             path.reverse()
-            return findPath(start, current) + path
+            return findPath(start, current, visited) + path
         visited.add(current)
         current = cameFrom[current]
         path.append(current)
@@ -137,7 +175,7 @@ def costEstimate(n1, n2, highest):
         return -max(n2.elevation - n1.elevation, 0)
     return max(n2.elevation - n1.elevation, 0)
 
-def findPath(start, goal):
+def findPath(start, goal, visited):
     """
     when circle is detected, find most direct path between start and the node where circle starts
     :param start: Node
@@ -145,16 +183,36 @@ def findPath(start, goal):
     :return:
     """
     stack = [start]
-    visited = dict()
     cameFrom = {start:start}
     while stack:
         node = stack.pop(0)
         if node == goal:
             del cameFrom[start]
             return reconstructPath(cameFrom, start, goal)
-        visited[node] = costEstimate(cameFrom[node], node, False)
+        visited.add(node)
         for neib in node.neighbors:
             if not neib in visited:
                 cameFrom[neib] = node
                 stack.append(neib)
     return []
+
+def getElevationFromPath(gmaps, start, goal):
+    """
+    get elevation gain using steps calculated by google map
+    :return: latitudes, longitudes, elevation gain
+    """
+    directionResult = gmaps.directions((start.latitude, start.longitude), (goal.latitude, goal.longitude))
+    steps = directionResult[0]['legs'][0]['steps']
+    latitudes = [start.latitude]
+    longitudes = [start.longitude]
+    elevGain = 0
+    prevElev = start.elevation
+    for step in steps:
+        lat = step['end_location']['lat']
+        lng = step['end_location']['lng']
+        latitudes.append(lat)
+        longitudes.append(lng)
+        currElev = elevation(gmaps, (lat, lng))[0]['elevation']
+        elevGain += max(0, currElev - prevElev)
+        prevElev = currElev
+    return latitudes, longitudes, elevGain

@@ -1,27 +1,21 @@
 import sys
 sys.path.insert(0 ,'../')
 
-from OSMLogic.intersections import getFullNeighborsInfo
+from OSMLogic.intersections import getFullNeighborsInfo, plotMap
 from EleNa.findRoute import optimalElevGain
 from EleNa.makeNodes import makeGraph, closestNode
 from EleNa.getElevation import getLocation
 from googlemaps import Client
-from googlemaps.elevation import elevation_along_path
-from geopy.distance import vincenty
-import pickle
 
 gmaps = Client(key='AIzaSyB6vHx97QpX_47VszFXIucfE-H_8xrbLWc')
 
-start = getLocation(gmaps, "University of Massachusetts")
-end = getLocation(gmaps, "Amherst")
-locationsAndDistances = getFullNeighborsInfo(start, end)
-# make a graph out of google map API call
-# graph = makeGraph(locationsAndDistances)
-# startPos = closestNode(start, graph)
-# endPos = closestNode(end, graph)
-# with open('elev.txt', 'w') as f:
-#     for node in graph.values():
-#         f.write("%f %f %d\n"%(node.latitude, node.longitude, node.elevation))
+startAddr = "University of Massachusetts"
+endAddr = "Amherst College"
+start = getLocation(gmaps, startAddr)
+end = getLocation(gmaps, endAddr)
+# locationsAndDistances = getFullNeighborsInfo(startAddr, endAddr)
+# use local files to avoid excess call to Google Maps API
+locationsAndDistances = getFullNeighborsInfo(startAddr, endAddr, 1.2)
 elevations = {}
 with open('elev.txt') as f:
     for line in f:
@@ -35,10 +29,12 @@ graph = makeGraph(locationsAndDistances, elevations)
 startPos = closestNode(start, graph)
 endPos = closestNode(end, graph)
 print("Testing...")
-route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.1)
-print(len(route), elevGain)
-route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 0.1, True)
-print(len(route), elevGain)
+# route, elevGain = optimalElevGain(graph[startPos], graph[endPos], 1.2)
+# print(len(route), elevGain)
+latitudes, longitudes, elevGain = optimalElevGain(graph[startPos], graph[endPos], 1.2, True)
+print(elevGain)
+plotMap((latitudes, longitudes))
+# findRoute("University of Massachusetts", "Amherst", 0.2, False)
 
 # elevPath = elevation_along_path(gmaps, path=[(36.578581,-118.291994),(36.23998,-116.83171)], samples=10)
 #
